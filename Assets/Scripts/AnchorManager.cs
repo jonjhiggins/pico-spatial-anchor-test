@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.PXR;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class AnchorManager : MonoBehaviour
@@ -15,6 +16,8 @@ public class AnchorManager : MonoBehaviour
     private GameObject anchorPrefab;
     [SerializeField]
     private float maxDriftDelay = 0.5f;
+    [SerializeField]
+    private UnityEvent<Vector3, Quaternion> positionSet;
 
     private float currrDriftDelay = 0f;
 
@@ -79,6 +82,7 @@ public class AnchorManager : MonoBehaviour
 
             //Keep track of our anchors to handle spatial drift
             anchorMap.Add(result.anchorHandle, anchorObject);
+            positionSet.Invoke(positon, rotation);
         }
     }
 
